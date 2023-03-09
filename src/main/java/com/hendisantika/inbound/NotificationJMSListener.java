@@ -1,7 +1,7 @@
 package com.hendisantika.inbound;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hendisantika.routing.Notification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
