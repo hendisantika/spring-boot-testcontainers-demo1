@@ -1,5 +1,6 @@
 package com.hendisantika.outbond;
 
+import com.hendisantika.routing.Endpoint;
 import com.hendisantika.routing.Notification;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
