@@ -34,7 +34,7 @@ class NotificationRepositoryTest {
     static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest");
 
     @Autowired
-    NotificationRepository repository;
+    NotificationRepository notificationRepository;
 
     @DynamicPropertySource
     static void registerDynamicProperties(DynamicPropertyRegistry registry) {
@@ -45,11 +45,11 @@ class NotificationRepositoryTest {
     void shouldStoreEachNotification() {
 
         // given
-        repository.save(new Notification("message1", "test"));
-        repository.save(new Notification("message2", "test"));
+        notificationRepository.save(new Notification("message1", "test"));
+        notificationRepository.save(new Notification("message2", "test"));
 
         // when
-        long count = repository.count();
+        long count = notificationRepository.count();
 
         // then
         assertThat(count, is(2L));
@@ -60,12 +60,12 @@ class NotificationRepositoryTest {
     void shouldStoreEachNotificationWithAUniqueIdentifier() {
 
         // given
-        Notification n1 = repository.save(new Notification("message3", "test"));
-        Notification n2 = repository.save(new Notification("message4", "test"));
+        Notification n1 = notificationRepository.save(new Notification("message3", "test"));
+        Notification n2 = notificationRepository.save(new Notification("message4", "test"));
 
         // when
-        Notification persistedNotification1 = repository.getOne(n1.getId());
-        Notification persistedNotification2 = repository.getOne(n2.getId());
+        Notification persistedNotification1 = notificationRepository.getOne(n1.getId());
+        Notification persistedNotification2 = notificationRepository.getOne(n2.getId());
 
         // then
         assertThat(persistedNotification1, equalTo(n1));
