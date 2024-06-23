@@ -20,6 +20,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -77,7 +78,7 @@ class UITest {
         System.out.println("Spring Boot URL is: " + url);
         driver.get(url);
 
-        List<WebElement> results = new WebDriverWait(driver, 15)
+        List<WebElement> results = new WebDriverWait(driver, Duration.ofMinutes(15))
                 .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.tagName("h1")));
 
         assertThat(results.size(), is(1));
@@ -100,7 +101,7 @@ class UITest {
         // added for effect when viewing the video
         Thread.sleep(1000);
 
-        List<WebElement> results = new WebDriverWait(driver, 15)
+        List<WebElement> results = new WebDriverWait(driver, Duration.ofMinutes(15))
                 .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.tagName("h1")));
 
         assertThat(results.size(), is(2));
