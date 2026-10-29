@@ -1,14 +1,11 @@
 package com.hendisantika.inbound;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hendisantika.routing.Notification;
 import com.hendisantika.routing.NotificationListener;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,13 +22,13 @@ import java.io.IOException;
 public class NotificationJMSListener {
 
     private final NotificationListener listener;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
     @JmsListener(destination = "jms.events")
-    public void receiveMessage(String message) throws IOException {
+    public void receiveMessage(String message) {
 
         // deserialize
-        JMSNotification jmsNotification = objectMapper.readValue(message, JMSNotification.class);
+        JMSNotification jmsNotification = jsonMapper.readValue(message, JMSNotification.class);
 
         // translate
         Notification notification = translate(jmsNotification);

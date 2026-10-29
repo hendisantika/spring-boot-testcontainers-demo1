@@ -3,11 +3,11 @@ package com.hendisantika.routing;
 import com.hendisantika.DemoApplicationTestPropertyValues;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -31,7 +31,7 @@ import static org.hamcrest.Matchers.is;
 class NotificationRepositoryTest {
 
     @Container
-    static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest");
+    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:latest");
 
     @Autowired
     NotificationRepository notificationRepository;
@@ -64,8 +64,8 @@ class NotificationRepositoryTest {
         Notification n2 = notificationRepository.save(new Notification("message4", "test"));
 
         // when
-        Notification persistedNotification1 = notificationRepository.getOne(n1.getId());
-        Notification persistedNotification2 = notificationRepository.getOne(n2.getId());
+        Notification persistedNotification1 = notificationRepository.getReferenceById(n1.getId());
+        Notification persistedNotification2 = notificationRepository.getReferenceById(n2.getId());
 
         // then
         assertThat(persistedNotification1, equalTo(n1));

@@ -26,7 +26,7 @@ public class RabbitMqTestConfiguration {
 
     @Bean
     Queue queue() {
-        return new Queue(TESTCONTAINERS_TEST_QUEUE, false);
+        return new Queue(TESTCONTAINERS_TEST_QUEUE, true);
     }
 
     @Bean

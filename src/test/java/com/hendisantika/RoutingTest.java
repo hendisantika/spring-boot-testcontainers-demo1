@@ -1,13 +1,12 @@
 package com.hendisantika;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hendisantika.inbound.JMSNotification;
 import com.hendisantika.routing.Notification;
 import com.hendisantika.routing.NotificationRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.jms.core.JmsTemplate;
@@ -15,9 +14,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import tools.jackson.databind.json.JsonMapper;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -40,10 +40,10 @@ import static org.hamcrest.Matchers.notNullValue;
 class RoutingTest {
 
     @Container
-    static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest");
+    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:latest");
 
     @Container
-    static GenericContainer<?> activeMQContainer = new GenericContainer<>("rmohr/activemq:latest")
+    static GenericContainer<?> activeMQContainer = new GenericContainer<>("apache/activemq-classic:latest")
             .withExposedPorts(61616);
 
     @Container
@@ -57,7 +57,7 @@ class RoutingTest {
     RabbitTemplate rabbitTemplate;
 
     @Autowired
-    ObjectMapper objectMapper;
+    JsonMapper jsonMapper;
 
     @Autowired
     NotificationRepository notificationRepository;
@@ -99,7 +99,7 @@ class RoutingTest {
     }
 
     private void sendNotificationToJmsQueue(JMSNotification jmsNotification) throws Exception {
-        jmsTemplate.convertAndSend("jms.events", objectMapper.writeValueAsString(jmsNotification));
+        jmsTemplate.convertAndSend("jms.events", jsonMapper.writeValueAsString(jmsNotification));
     }
 
     private Notification readNotificationFromRabbitMqQueue() {

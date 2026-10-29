@@ -2,7 +2,7 @@ package com.hendisantika;
 
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,7 +16,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
  */
 public class DemoApplicationTestPropertyValues {
     public static void populateRegistryFromContainers(DynamicPropertyRegistry registry,
-                                                      PostgreSQLContainer<?> postgreSQLContainer,
+                                                      PostgreSQLContainer postgreSQLContainer,
                                                       GenericContainer<?> activeMQContainer,
                                                       GenericContainer<?> rabbitMQContainer) {
 
@@ -31,7 +31,7 @@ public class DemoApplicationTestPropertyValues {
     }
 
     public static void populateRegistryFromPostgresContainer(DynamicPropertyRegistry registry,
-                                                             PostgreSQLContainer<?> postgreSQLContainer) {
+                                                             PostgreSQLContainer postgreSQLContainer) {
         registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
         registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
         registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
