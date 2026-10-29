@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-openjdk-alpine:21
+FROM bellsoft/liberica-openjdk-alpine:26
 
 LABEL maintainer="Thomas Lutz <lutz@symptoma.com>"
 
